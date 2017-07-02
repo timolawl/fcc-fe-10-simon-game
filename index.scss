@@ -1,0 +1,266 @@
+@import url('//fonts.googleapis.com/css?family=Changa+One|Montserrat');
+
+$default-green: #0c0;
+$default-red: #c00;
+$default-yellow: #cc0;
+$default-blue: #00c;
+
+*, :before, :after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  font-family: 'Changa One';
+  color: white;
+}
+
+.background {
+  width: 100%;
+  height: 100%;
+//  background-color: gray;
+  background-size: 25%;
+  // Background image from subtlepatterns.com
+  background-image: url('//res.cloudinary.com/timolawl/image/upload/v1457415829/darkWood.png');
+  height: 100vh;
+  width: 100vw;
+  
+   &.wrong {
+    content: '';
+    background-image: linear-gradient(to bottom right, rgba(255, 0, 0, 0.3), rgba(255, 0, 0, 0.3)), url('//res.cloudinary.com/timolawl/image/upload/v1457415829/darkWood.png'); 
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  &.win {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom right, rgba(0, 0, 255, 0.3), rgba(0, 0, 255, 0.3)), url('//res.cloudinary.com/timolawl/image/upload/v1457415829/darkWood.png'); 
+    animation: win 2s;
+    @keyframes win {
+      0%, 100% {
+        background-image: url('//res.cloudinary.com/timolawl/image/upload/v1457415829/darkWood.png');
+      }
+      25%, 75% {
+        background-image: linear-gradient(to bottom right, rgba(122, 122, 255, 0.4), rgba(122, 122, 255, 0.4)), url('//res.cloudinary.com/timolawl/image/upload/v1457415829/darkWood.png'); 
+      }
+      50% {
+        background-image: linear-gradient(to bottom right, rgba(0, 0, 255, 0.3), rgba(0, 0, 255, 0.3)), url('//res.cloudinary.com/timolawl/image/upload/v1457415829/darkWood.png'); 
+      }
+    }
+  }
+}
+
+.container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+}
+
+.simon {
+  width: 300px;
+  height: 300px;
+  border: 10px solid black;
+  border-radius: 100%;
+  margin-top: -50%;
+  margin-left: -50%;
+  box-shadow: 3px 3px 2px rgba(0, 0, 0, 0.5);
+  
+  
+  &__center {
+    height: 140px;
+    width: 140px;
+    margin: 70px auto; // to account for the border
+    background: #111;
+    border: 10px solid black;
+    border-radius: 100%;
+    z-index: 2;
+    text-align: center;
+  }
+  
+  
+  @mixin simon__button($color, $rotation, $positionX, $positionY) {
+    position: absolute;
+    left: $positionX;
+    top: $positionY;
+    width: 50%;
+    height: 50%;
+    border-radius: 100% 0 0 0;
+    border-right: 5px solid black;
+    border-bottom: 5px solid black;
+    background: $color;
+    transform: rotate($rotation);
+    cursor: pointer;
+    &:hover {
+      background: lighten($color, 30%);
+    }
+    
+    
+  }
+  
+  &__color {
+    &--green {
+      @include simon__button($default-green, 0deg, 0, 0);
+    }
+    
+    &--red {
+      @include simon__button($default-red, 90deg, 50%, 0);
+    }
+    
+    &--yellow {
+      @include simon__button($default-yellow, -90deg, 0, 50%);
+    }
+    
+    &--blue {
+      @include simon__button($default-blue, 180deg, 50%, 50%);
+    }
+  }
+}
+
+.center {
+  &__title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    text-indent: 0.5rem;
+  }
+  
+  &__start {
+    vertical-align: top;
+    display: inline-block;
+    margin-top: 0.5rem;
+    
+    &--button {
+      width: 18px;
+      height: 18px;
+      border: 2px solid white;
+      border-radius: 100%;
+      cursor: pointer;
+    }
+    
+    &--text {
+      font-family: Montserrat;
+      font-size: 0.45rem;
+      text-align: center;
+      
+    }
+  }
+  
+  &__turn {
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    &--display {
+      color: #A0A0A0;
+      height: 18px;
+      width: 24px;
+      border: 2px solid white;
+      text-align: center;
+      line-height: 14px;
+    }
+    
+    &--text {
+      font-family: Montserrat;
+      font-size: 0.45rem;
+      text-align: center;
+    }
+  }
+  
+  &__mode {
+    display: inline-block;
+    margin-top: 0.5rem;
+    margin-left: 0.5rem;
+    
+    &--button {
+      width: 18px;
+      height: 18px;
+      border: 2px solid white;
+      border-radius: 100%;
+      cursor: pointer;
+    }
+    
+    &--text {
+      font-family: Montserrat;
+      font-size: 0.45rem;
+      text-align: center;
+    }
+    
+  }
+}
+
+
+.trademark {
+  font-size: 0.7rem;
+  vertical-align: bottom;
+}
+
+@each $colors in green, red, yellow, blue {
+  .#{$colors}-animation {
+    animation-duration: 1s;
+    animation-name: highlight-#{$colors};
+  }
+  @keyframes highlight-#{$colors} {
+    0% {
+      @if $colors == green {
+        background: $default-green;
+      }
+      @if $colors == red {
+        background: $default-red;
+      }
+      @if $colors == yellow {
+        background: $default-yellow;
+      }
+      @if $colors == blue {
+        background: $default-blue;
+      }
+    }
+    1% {
+       @if $colors == green {
+        background: lighten($default-green, 30%);
+      }
+      @if $colors == red {
+        background: lighten($default-red, 30%);
+      }
+      @if $colors == yellow {
+        background: lighten($default-yellow, 30%);
+      }
+      @if $colors == blue {
+        background: lighten($default-blue, 30%);
+      }
+    }
+    100% {
+       @if $colors == green {
+        background: lighten($default-green, 30%);
+      }
+      @if $colors == red {
+        background: lighten($default-red, 30%);
+      }
+      @if $colors == yellow {
+        background: lighten($default-yellow, 30%);
+      }
+      @if $colors == blue {
+        background: lighten($default-blue, 30%);
+      }
+    }
+  }
+}
+
+.wrong {
+  position: absolute;
+  content: '';
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: rgba(255, 0, 0, 0.6);
+}
+
+.no-mouseaction { 
+  pointer-events: none;
+}
